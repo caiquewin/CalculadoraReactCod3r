@@ -2,12 +2,16 @@ import React from "react";
 import './Button.css'
 
 export default props =>{ 
-    let color =props.color?props.color:"withe" 
     
+    let classes =`button`
+    classes +=  props.operation?"operation":""
+    classes +=  props.double?"double":""
+    classes +=  props.triple?"triple":""
+
+
     return(
-       <button className="button" style={{
-           backgroundColor:`${color}`
-           }}>
+       <button onClick={e=>props.click && props.click(props.label)}
+        className={classes}>
         {props.label}
        </button>
     )
