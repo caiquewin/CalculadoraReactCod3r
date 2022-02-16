@@ -17,17 +17,40 @@ export default class Calculator extends Component {
     constructor(props) {
         super(props)
         this.state = { ...initialState };
-        this.setOperation = this.clearMemory.bind(this)
-        this.setOperation = this.setOperation.bind(this)
-        this.setOperation = this.addDigit.bind(this)
         
     }
     
     clearMemory=()=> {
         this.setState({ ...initialState })
     }
-    setOperation(operation) {
-        console.log(operation)
+    setOperation=(operation) =>{
+        console.log('teste');
+        if(this.state.current ===0){
+            this.setState({
+                operation,
+                current:1,
+                clearDisplay:true
+            })
+        } else{
+            const equals  = operation === '='
+            const currentOperation = this.state.operation
+            const value = [...this.state.values]
+            try {
+                value[0]=eval(`${value[0]} ${currentOperation} ${value[1]}`) // refatorar
+                
+            } catch (error) {
+            value[0]= this.state.values[0]    
+            }
+            
+            value[1]=0
+            this.setState({
+                displayValue:value[0],
+                operation:equals?null:operation, // vai verificar se o cliente colocou alguma operação
+                current: equals?0:1, //verificar se o usuario colocou  alguma operação
+                clearDisplay:!equals ,
+                values:value
+            })
+        }
     }
     addDigit=(n)=> {
 
